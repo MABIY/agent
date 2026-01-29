@@ -1,0 +1,19 @@
+/**
+ * Application 模块
+ *
+ * 应用层，编排业务用例
+ * - 依赖 domain 模块
+ * - 不依赖 Spring
+ * - 不依赖具体实现
+ *
+ * 依赖规则：
+ * - 可以依赖 domain 模块
+ * - 不依赖 infrastructure 模块
+ * - 不依赖 boot 模块
+ */
+dependencies {
+    // 依赖 domain 模块
+    implementation project(':domain')
+
+    // 零其他业务依赖
+}

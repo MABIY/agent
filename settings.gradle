@@ -1,0 +1,13 @@
+pluginManagement {
+    repositories {
+        maven { url 'https://maven.aliyun.com/repository/gradle-plugin' }
+        gradlePluginPortal()
+    }
+}
+
+rootProject.name = 'agent-onion'
+
+include 'domain'
+include 'application'
+include 'infrastructure'
+include 'boot'

@@ -1,0 +1,32 @@
+plugins {
+    id 'java'
+}
+
+allprojects {
+    group = 'com.example.agent'
+    version = '0.0.1-SNAPSHOT'
+
+    repositories {
+        maven { url 'https://maven.aliyun.com/repository/public' }
+        mavenCentral()
+    }
+}
+
+subprojects {
+    apply plugin: 'java'
+
+    java {
+        sourceCompatibility = '17'
+        targetCompatibility = '17'
+    }
+
+    dependencies {
+        // 使用 JUnit 5 进行测试
+        testImplementation 'org.junit.jupiter:junit-jupiter:5.10.1'
+        testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    }
+
+    tasks.named('test') {
+        useJUnitPlatform()
+    }
+}

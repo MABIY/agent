@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: agent-onion
+  main:
+    banner-mode: off
+
+server:
+  port: 8080
+
+logging:
+  level:
+    com.example.agent: DEBUG
+    com.alibaba.agentscope: DEBUG

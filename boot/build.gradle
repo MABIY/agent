@@ -1,0 +1,37 @@
+/**
+ * Boot 模块
+ *
+ * 启动模块，组装整个应用
+ * - 依赖 domain 模块
+ * - 依赖 application 模块
+ * - 依赖 infrastructure 模块
+ * - 包含 Spring Boot 应用入口
+ *
+ * 依赖规则：
+ * - 可以依赖所有其他模块
+ * - 其他模块不能依赖本模块
+ */
+plugins {
+    id 'org.springframework.boot' version '3.4.0'
+    id 'io.spring.dependency-management' version '1.1.7'
+}
+
+dependencies {
+    // 依赖所有业务模块
+    implementation project(':domain')
+    implementation project(':application')
+    implementation project(':infrastructure')
+
+    // Spring Boot
+    implementation 'org.springframework.boot:spring-boot-starter'
+
+    // 开发工具
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+
+    // 测试
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}

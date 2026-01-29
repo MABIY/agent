@@ -1,0 +1,31 @@
+/**
+ * Infrastructure 模块
+ *
+ * 外层，提供技术实现
+ * - 依赖 domain 模块
+ * - 依赖 application 模块
+ * - 依赖 Spring（用于依赖注入）
+ * - 依赖 AgentScope（外部 SDK）
+ *
+ * 依赖规则：
+ * - 可以依赖 domain 和 application 模块
+ * - domain 和 application 模块不能依赖本模块
+ */
+dependencies {
+    // 依赖 domain 模块
+    implementation project(':domain')
+
+    // 依赖 application 模块
+    implementation project(':application')
+
+    // Spring 依赖（仅用于依赖注入）
+    implementation 'org.springframework:spring-context:6.1.1'
+    implementation 'org.springframework.boot:spring-boot-starter-web:3.2.0'
+
+    // AgentScope SDK
+    implementation 'io.agentscope:agentscope:1.0.7'
+
+    // Lombok
+    compileOnly 'org.projectlombok:lombok:1.18.30'
+    annotationProcessor 'org.projectlombok:lombok:1.18.30'
+}
