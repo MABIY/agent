@@ -4,7 +4,7 @@ import com.example.agent.domain.model.ConversationMessage;
 import com.example.agent.domain.service.AgentService;
 import io.agentscope.core.ReActAgent;
 import io.agentscope.core.message.Msg;
-import io.agentscope.core.model.DashScopeChatModel;
+import io.agentscope.core.model.OpenAIChatModel;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -31,9 +31,10 @@ public class AgentScopeAgentService implements AgentService {
         this.agent = ReActAgent.builder()
                 .name("Assistant")
                 .sysPrompt("You are a helpful assistant.")
-                .model(DashScopeChatModel.builder()
-                        .apiKey(System.getenv("DASHSCOPE_API_KEY"))
-                        .modelName("qwen-max")
+                .model(OpenAIChatModel.builder()
+                        .apiKey(System.getenv("OPENROUTER_API_KEY"))
+                        .baseUrl("https://openrouter.ai/api/v1")
+                        .modelName("z-ai/glm-4.7")
                         .build())
                 .build();
     }
