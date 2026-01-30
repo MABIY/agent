@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "internet_search": {
+      "url": "https://qas-ai-open-gateway.ecovacs.cn/mcp-servers/mcp-server-search-test/sse",
+      "type": "sse",
+      "headers": {
+        "Authorization": "Bearer ofyM2g1FWvdhxH08"
+      }
+    }
+  }
+}
