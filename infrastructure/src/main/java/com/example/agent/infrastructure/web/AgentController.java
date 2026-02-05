@@ -11,7 +11,10 @@ import io.agentscope.core.message.ToolResultBlock;
 import io.agentscope.core.model.OpenAIChatModel;
 import io.agentscope.core.skill.AgentSkill;
 import io.agentscope.core.skill.SkillBox;
-import io.agentscope.core.tool.*;
+import io.agentscope.core.tool.AgentTool;
+import io.agentscope.core.tool.ToolCallParam;
+import io.agentscope.core.tool.ToolParam;
+import io.agentscope.core.tool.Toolkit;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
@@ -20,7 +23,6 @@ import java.util.Map;
 
 /**
  * REST 控制器
- *
  * 位于 Infrastructure 层（Web）
  * 职责：
  * 1. 处理 HTTP 请求/响应
@@ -64,23 +66,12 @@ public class AgentController {
         chatApplicationService.clearConversationHistory();
     }
 
-    public static class Tool {
-
-        @io.agentscope.core.tool.Tool(name = "agent-name",description = "agent-description")
-        public void test(@ToolParam(name = "paramter")String value){
-
-        }
-    }
     @GetMapping("/test")
-    public void test(){
+    public void test() {
         Toolkit toolkit = new Toolkit();
         SkillBox skillBox = new SkillBox(toolkit);
 
-        AgentSkill dataSkill = AgentSkill.builder()
-                .name("data_analysis")
-                .description("Comprehensive data analysis capabilities")
-                .skillContent("# Data Analysis\n...")
-                .build();
+        AgentSkill dataSkill = AgentSkill.builder().name("data_analysis").description("Comprehensive data analysis capabilities").skillContent("# Data Analysis\n...").build();
 
         AgentTool loadDataTool = new AgentTool() {
             @Override
@@ -104,55 +95,52 @@ public class AgentController {
             }
         };
 
-        skillBox.registration()
-                .skill(dataSkill)
-                .tool(new Tool())
-                .apply();
+        skillBox.registration().skill(dataSkill).tool(new Tool()).apply();
 
-        ReActAgent agent = ReActAgent.builder()
-                .name("agent-skill")
-                .model(OpenAIChatModel.builder()
-                        .apiKey(System.getenv("OPENROUTER_API_KEY"))
-                        .baseUrl("https://openrouter.ai/api/v1")
-                        .modelName("z-ai/glm-4.7")
-                        .build())
-                .hook(new Hook() {
-                    @Override
-                    public <T extends HookEvent> Mono<T> onEvent(T event) {
-                        switch (event){
-                            case ActingEvent actingEvent -> {
-                                switch (actingEvent){
-                                    case ActingChunkEvent actingChunkEvent -> {
-                                    }
-                                    case PostActingEvent postActingEvent -> {
-                                        System.out.println("test");
-                                    }
-                                    case PreActingEvent preActingEvent -> {
-                                    }
-                                }
+        ReActAgent agent = ReActAgent.builder().name("agent-skill").model(OpenAIChatModel.builder().apiKey(System.getenv("OPENROUTER_API_KEY")).baseUrl("https://openrouter.ai/api/v1").modelName("z-ai/glm-4.7").build()).hook(new Hook() {
+            @Override
+            public <T extends HookEvent> Mono<T> onEvent(T event) {
+                switch (event) {
+                    case ActingEvent actingEvent -> {
+                        switch (actingEvent) {
+                            case ActingChunkEvent actingChunkEvent -> {
                             }
-                            case ErrorEvent errorEvent -> {
+                            case PostActingEvent postActingEvent -> {
+                                System.out.println("test");
                             }
-                            case PostCallEvent postCallEvent -> {
-                            }
-                            case PreCallEvent preCallEvent -> {
-                            }
-                            case ReasoningEvent reasoningEvent -> {
+                            case PreActingEvent preActingEvent -> {
                             }
                         }
-                        return Mono.just(event);
-                    };
+                    }
+                    case ErrorEvent errorEvent -> {
+                    }
+                    case PostCallEvent postCallEvent -> {
+                    }
+                    case PreCallEvent preCallEvent -> {
+                    }
+                    case ReasoningEvent reasoningEvent -> {
+                    }
+                    case SummaryEvent summaryEvent -> {
+                    }
+                }
+                return Mono.just(event);
+            }
 
-                })
-                .toolkit(toolkit)
-                .skillBox(skillBox)
-                .build();
+        }).toolkit(toolkit).skillBox(skillBox).build();
         Msg msg = Msg.builder().textContent("please analysis data").build();
         try {
             Msg response = agent.call(msg).block();
             System.out.println(response);
         } catch (Exception e) {
             System.err.println(e.getMessage());
+        }
+    }
+
+    public static class Tool {
+
+        @io.agentscope.core.tool.Tool(name = "agent-name", description = "agent-description")
+        public void test(@ToolParam(name = "paramter") String value) {
+
         }
     }
 }

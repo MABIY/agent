@@ -23,7 +23,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web:3.2.0'
 
     // AgentScope SDK
-    implementation 'io.agentscope:agentscope:1.0.7'
+    implementation 'io.agentscope:agentscope:1.0.8'
 
     // Lombok
     compileOnly 'org.projectlombok:lombok:1.18.30'
