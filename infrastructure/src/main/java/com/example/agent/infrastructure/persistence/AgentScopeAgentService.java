@@ -4,7 +4,7 @@ import com.example.agent.domain.model.ConversationMessage;
 import com.example.agent.domain.service.AgentService;
 import io.agentscope.core.ReActAgent;
 import io.agentscope.core.message.Msg;
-import io.agentscope.core.model.OpenAIChatModel;
+import io.agentscope.extensions.model.openai.OpenAIChatModel;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -12,10 +12,8 @@ import java.util.List;
 
 /**
  * AgentService 的 AgentScope 实现
- *
  * 位于 Infrastructure 层，实现 Domain 层定义的接口
  * 职责：将 AgentScope SDK 适配到领域服务接口
- *
  * 这是一个适配器（Adapter Pattern）
  */
 @Component
