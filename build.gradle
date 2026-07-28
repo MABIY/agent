@@ -29,4 +29,22 @@ subprojects {
     tasks.named('test') {
         useJUnitPlatform()
     }
+
+    // 统一源文件编码
+    tasks.withType(JavaCompile).configureEach {
+        options.encoding = 'UTF-8'
+    }
+
+    // 统一运行/测试子进程的输出编码（IDEA 用 Gradle 执行 main 方法时生效）
+    // Java 17 下 stdout 被管道接管时 System.out 用 sun.stdout.encoding（默认 ISO-8859-1），故必须显式指定
+    tasks.withType(JavaExec).configureEach {
+        systemProperty 'file.encoding', 'UTF-8'
+        systemProperty 'sun.stdout.encoding', 'UTF-8'
+        systemProperty 'sun.err.encoding', 'UTF-8'
+    }
+    tasks.withType(Test).configureEach {
+        systemProperty 'file.encoding', 'UTF-8'
+        systemProperty 'sun.stdout.encoding', 'UTF-8'
+        systemProperty 'sun.err.encoding', 'UTF-8'
+    }
 }

@@ -1,7 +1,15 @@
 {
   "permissions": {
     "allow": [
-      "Bash(tree:*)"
+      "Bash(tree:*)",
+      "PowerShell($bytes = [System.IO.File]::ReadAllBytes\\(\"D:\\\\project\\\\agent\\\\domain\\\\src\\\\main\\\\java\\\\com\\\\example\\\\agent\\\\domain\\\\Test.java\"\\); \\($bytes | ForEach-Object { $_.ToString\\(\"X2\"\\) }\\) -join \" \")",
+      "PowerShell(java -Dfile.encoding=UTF-8 -cp $classDir com.example.agent.domain.Test)",
+      "PowerShell(java -Dfile.encoding=GBK -cp $classDir com.example.agent.domain.Test)",
+      "PowerShell(java -cp $classDir com.example.agent.domain.Test)",
+      "PowerShell($classDir = \"D:\\\\project\\\\agent\\\\domain\\\\build\\\\classes\\\\java\\\\main\")",
+      "PowerShell(\"--- file.encoding=UTF-8 ---\")",
+      "PowerShell(\"--- file.encoding=GBK ---\")",
+      "PowerShell(\"--- default \\(no flag\\) ---\")"
     ]
   }
 }

@@ -4,7 +4,6 @@ import com.example.agent.domain.model.ConversationMessage;
 import com.example.agent.domain.service.AgentService;
 import io.agentscope.core.ReActAgent;
 import io.agentscope.core.message.Msg;
-import io.agentscope.extensions.model.openai.OpenAIChatModel;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -29,11 +28,7 @@ public class AgentScopeAgentService implements AgentService {
         this.agent = ReActAgent.builder()
                 .name("Assistant")
                 .sysPrompt("You are a helpful assistant.")
-                .model(OpenAIChatModel.builder()
-                        .apiKey(System.getenv("OPENROUTER_API_KEY"))
-                        .baseUrl("https://openrouter.ai/api/v1")
-                        .modelName("z-ai/glm-4.7")
-                        .build())
+                .model("openai:gpt-5.4-2026-03-05")
                 .build();
     }
 
