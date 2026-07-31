@@ -2,6 +2,7 @@ import io.agentscope.core.agent.RuntimeContext;
 import io.agentscope.core.message.Msg;
 import io.agentscope.core.message.UserMessage;
 import io.agentscope.harness.agent.HarnessAgent;
+import io.agentscope.harness.agent.memory.MemoryConfig;
 import io.agentscope.harness.agent.memory.compaction.CompactionConfig;
 
 import java.nio.file.Paths;
@@ -17,10 +18,14 @@ public class FirstAgent {
                 .sysPrompt("你是一个帮助用户做笔记的助手。")
                 .model("openai:gpt-5.4-2026-03-05")
                 .workspace(Paths.get(".agentscope/workspace"))
+                .disableMemoryHooks()
+                .disableMemoryTools()
+//                .disableSubagents()  //diable system prompt section of subagent prompt
 //                .abstractFilesystem(new LocalFilesystem(absolutePath))
                 .compaction(CompactionConfig.builder()
-                        .triggerMessages(30)
-                        .keepMessages(10)
+                        .flushBeforeCompact(false) // memory flush before compact disabled
+                        .triggerMessages(50)
+                        .keepMessages(20)
                         .build())
                 .build();
         RuntimeContext ctx = RuntimeContext.builder()
